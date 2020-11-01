@@ -1,9 +1,7 @@
 package users
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -13,19 +11,7 @@ import (
 
 func CreateUser(c *gin.Context) {
 	var user users.User
-	fmt.Println(user)
-	bytes, err := ioutil.ReadAll(c.Request.Body)
-	if err != nil {
-		// handle error
-		fmt.Println("read all error")
-		return
-	}
-	fmt.Println("err")
-	fmt.Println(err)
-	fmt.Println("s: bytes")
-	fmt.Println(string(bytes))
-
-	if err := json.Unmarshal(bytes, &user); err != nil {
+	if err := c.ShouldBindJSON(&user); err != nil {
 		// handle error
 		fmt.Println("unmarshal error")
 		return
